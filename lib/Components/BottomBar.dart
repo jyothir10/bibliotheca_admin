@@ -1,3 +1,4 @@
+import 'package:bibliotheca_admin/Screens/ContactUsScreen.dart';
 import 'package:bibliotheca_admin/Screens/DashBoardScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,7 +16,7 @@ class _BottomBarState extends State<BottomBar> {
   final pages = [
     DashBoardScreen.id,
     DashBoardScreen.id,
-    DashBoardScreen.id,
+    ContactUs.id,
     DashBoardScreen.id,
   ];
 

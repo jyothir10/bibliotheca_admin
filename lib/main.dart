@@ -1,4 +1,5 @@
 import 'package:bibliotheca_admin/Screens/AddBookScreen.dart';
+import 'package:bibliotheca_admin/Screens/ContactUsScreen.dart';
 import 'package:bibliotheca_admin/Screens/DashBoardScreen.dart';
 import 'package:bibliotheca_admin/Screens/LoginScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,12 +26,13 @@ class MyApp extends StatelessWidget {
     ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: SplashScreen.id,
+      initialRoute: DashBoardScreen.id,
       routes: {
         SplashScreen.id: (context) => SplashScreen(),
         LoginScreen.id: (context) => LoginScreen(),
         DashBoardScreen.id: (context) => DashBoardScreen(),
         AddBookScreen.id: (context) => AddBookScreen(),
+        ContactUs.id: (context) => ContactUs(),
       },
     );
   }
