@@ -1,9 +1,9 @@
 import 'package:bibliotheca_admin/Components/Background.dart';
 import 'package:bibliotheca_admin/Components/BottomBar.dart';
+import 'package:bibliotheca_admin/Components/DashBoardCard.dart';
+import 'package:bibliotheca_admin/Screens/AddBookScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../Components/DashBoardCard.dart';
 
 class DashBoardScreen extends StatefulWidget {
   static const String id = '/dashboard';
@@ -71,7 +71,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       DashBoardCard(
                         img: "images/dashboard/reg.svg",
                         text: 'Add New Book',
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, AddBookScreen.id);
+                        },
                       ),
                       DashBoardCard(
                         img: "images/dashboard/searchs.svg",
