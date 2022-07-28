@@ -1,10 +1,10 @@
 import 'package:bibliotheca_admin/Components/Background.dart';
 import 'package:bibliotheca_admin/Components/BottomBar.dart';
+import 'package:bibliotheca_admin/Components/GreenButton.dart';
 import 'package:bibliotheca_admin/Components/LoginScreenTextfiled.dart';
 import 'package:bibliotheca_admin/Screens/DashBoardScreen.dart';
+import 'package:bibliotheca_admin/constants.dart';
 import 'package:flutter/material.dart';
-
-import '../constants.dart';
 
 class AddBookScreen extends StatefulWidget {
   const AddBookScreen({Key? key}) : super(key: key);
@@ -42,20 +42,22 @@ class _AddBookScreenState extends State<AddBookScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: primaryColour,
-                        ),
-                      ),
-                    ],
-                  ),
+                  MediaQuery.of(context).viewInsets.bottom == 0
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: primaryColour,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(),
                   MediaQuery.of(context).viewInsets.bottom == 0
                       ? Padding(
                           padding: const EdgeInsets.only(top: 50),
@@ -79,7 +81,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
                         )
                       : Container(),
                   Padding(
-                    padding: const EdgeInsets.only(top: 9, bottom: 15),
+                    padding: MediaQuery.of(context).viewInsets.bottom == 0
+                        ? EdgeInsets.only(top: 9, bottom: 15)
+                        : EdgeInsets.only(bottom: 5),
                     child: SingleChildScrollView(
                       child: Container(
                         width: MediaQuery.of(context).size.width * .91062,
@@ -141,6 +145,12 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       ),
                     ),
                   ),
+                  GreenButton(
+                      text: "Add Book",
+                      width: MediaQuery.of(context).size.width * .408,
+                      onTap: () {
+                        //todo: add new book
+                      })
                 ],
               ),
             ))
