@@ -105,9 +105,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
                           )
                         : Container(),
                     MediaQuery.of(context).viewInsets.bottom == 0
-                        ? Padding(
-                            padding: const EdgeInsets.only(top: 50),
-                            child: const Text(
+                        ? const Padding(
+                            padding: EdgeInsets.only(top: 50),
+                            child: Text(
                               'Register New Book',
                               style: TextStyle(
                                 color: Color(0xff2f8a8a),
@@ -136,7 +136,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(18),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                 color: Color(0x7f000000),
                                 blurRadius: 3,
