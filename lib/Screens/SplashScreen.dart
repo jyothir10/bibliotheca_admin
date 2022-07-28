@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bibliotheca_admin/Screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     var _duration = Duration(seconds: 4);
     return Timer(_duration, () {
       //Navigate to another screen or anyOther function, like i set duration 4 sec so this function run after 4 sec
-      //Navigator.pushReplacementNamed(context, OnboardingScreen.id);
+      Navigator.pushReplacementNamed(context, LoginScreen.id);
     });
   }
 

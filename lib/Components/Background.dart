@@ -60,7 +60,7 @@ class Background extends StatelessWidget {
                       width: 150,
                       height: 150,
                       decoration: const BoxDecoration(
-                        color: Color(0xff00B9B9),
+                        color: Color(0xffB0EDE2),
                         borderRadius: BorderRadius.all(Radius.circular(100)),
                       ),
                     ),

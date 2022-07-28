@@ -1,6 +1,7 @@
 import 'package:bibliotheca_admin/Components/Background.dart';
 import 'package:bibliotheca_admin/Components/GreenButton.dart';
 import 'package:bibliotheca_admin/Components/LoginScreenTextfiled.dart';
+import 'package:bibliotheca_admin/Screens/DashBoardScreen.dart';
 import 'package:bibliotheca_admin/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailcontroller.text.trim(),
           password: passwordcontroller.text.trim());
-      //Navigator.pushReplacementNamed(context, DashBoardScreen.id);
+      Navigator.pushReplacementNamed(context, DashBoardScreen.id);
       setState(() {
         showSpinner = false;
       });
