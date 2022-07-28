@@ -1,10 +1,16 @@
+import 'package:bibliotheca_admin/Screens/LoginScreen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'Screens/SplashScreen.dart';
 
-void main(){
-  runApp(MyApp());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -16,11 +22,12 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: SplashScreen.id,
-        routes: {
-          SplashScreen.id : (context) => SplashScreen(),
-        },
+      debugShowCheckedModeBanner: false,
+      initialRoute: LoginScreen.id,
+      routes: {
+        SplashScreen.id: (context) => SplashScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
+      },
     );
   }
 }
