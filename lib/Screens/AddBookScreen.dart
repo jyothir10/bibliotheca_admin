@@ -24,6 +24,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
   TextEditingController genrecontroller = TextEditingController();
   TextEditingController shelfcontroller = TextEditingController();
   TextEditingController rackcontroller = TextEditingController();
+  bool exist = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,22 +34,44 @@ class _AddBookScreenState extends State<AddBookScreen> {
       setState(() {
         showSpinner = true;
       });
-      final books = FirebaseFirestore.instance
+
+      await FirebaseFirestore.instance
           .collection('Books')
-          .doc(isbncontroller.text);
+          .doc(isbncontroller.text)
+          .get()
+          .then((value) {
+        exist = value.exists;
+      });
 
-      final book = Book(
-        id: isbncontroller.text.trim(),
-        name: namecontroller.text.trim(),
-        author: authorcontroller.text.trim(),
-        branch: genrecontroller.text.trim(),
-        isavail: true,
-        shelf: int.parse(shelfcontroller.text.trim()),
-        rack: int.parse(rackcontroller.text.trim()),
-      );
+      if (exist == false) {
+        final books = FirebaseFirestore.instance
+            .collection('Books')
+            .doc(isbncontroller.text);
 
-      final json = book.toJson();
-      await books.set(json);
+        final book = Book(
+          id: isbncontroller.text.trim(),
+          name: namecontroller.text.trim(),
+          author: authorcontroller.text.trim(),
+          branch: genrecontroller.text.trim(),
+          isavail: true,
+          shelf: int.parse(shelfcontroller.text.trim()),
+          rack: int.parse(rackcontroller.text.trim()),
+        );
+
+        final json = book.toJson();
+        await books.set(json);
+
+        _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 1),
+            content: Text("Successfully added book")));
+      } else {
+        _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 1),
+            content: Text("Book already exists")));
+      }
+
       isbncontroller.clear();
       namecontroller.clear();
       authorcontroller.clear();
@@ -57,10 +80,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
       rackcontroller.clear();
       FocusManager.instance.primaryFocus?.unfocus();
 
-      _scaffoldKey.currentState?.showSnackBar(const SnackBar(
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 1),
-          content: Text("Successfully added book")));
       setState(() {
         showSpinner = false;
       });
