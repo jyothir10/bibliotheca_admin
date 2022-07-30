@@ -1,8 +1,12 @@
 import 'package:bibliotheca_admin/Screens/AddBookScreen.dart';
-import 'package:bibliotheca_admin/Screens/BookIssueScreen.dart';
 import 'package:bibliotheca_admin/Screens/ContactUsScreen.dart';
 import 'package:bibliotheca_admin/Screens/DashBoardScreen.dart';
 import 'package:bibliotheca_admin/Screens/LoginScreen.dart';
+import 'package:bibliotheca_admin/Screens/SearchScreen.dart';
+import 'package:bibliotheca_admin/Screens/SearchScreen1.dart';
+import 'package:bibliotheca_admin/Screens/SearchScreen2.dart';
+import 'package:bibliotheca_admin/Screens/SearchScreen3.dart';
+import 'package:bibliotheca_admin/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +30,11 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
+      theme: ThemeData(
+        colorScheme: ThemeData().colorScheme.copyWith(
+              primary: primaryColour,
+            ),
+      ),
       debugShowCheckedModeBanner: false,
       initialRoute: SplashScreen.id,
       routes: {
@@ -34,7 +43,10 @@ class MyApp extends StatelessWidget {
         DashBoardScreen.id: (context) => DashBoardScreen(),
         AddBookScreen.id: (context) => AddBookScreen(),
         ContactUs.id: (context) => ContactUs(),
-        BookIssueScreen.id: (context) => BookIssueScreen(),
+        SearchScreen.id: (context) => SearchScreen(),
+        SearchScreen1.id: (context) => SearchScreen1(),
+        SearchScreen2.id: (context) => SearchScreen2(),
+        SearchScreen3.id: (context) => SearchScreen3(),
       },
     );
   }
