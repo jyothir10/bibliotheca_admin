@@ -21,28 +21,46 @@ class _BookIssueScreenState extends State<BookIssueScreen> {
   TextEditingController namecontroller = TextEditingController();
   TextEditingController admissioncontroller = TextEditingController();
   TextEditingController isbncontroller = TextEditingController();
+  bool exist = false;
 
   Future issueBook() async {
     final student = FirebaseFirestore.instance
         .collection('Students')
         .doc(admissioncontroller.text);
-    student.update({
-      'bookid': FieldValue.arrayUnion([isbncontroller.text])
+
+    final book = await FirebaseFirestore.instance
+        .collection('Books')
+        .doc(isbncontroller.text)
+        .get()
+        .then((value) {
+      exist = value.exists;
     });
-    student.update({
-      'bookname': FieldValue.arrayUnion([namecontroller.text])
-    });
-    student.update({
-      'issuedates': FieldValue.arrayUnion([_dateTime])
-    });
+
+    if (exist == true) {
+      student.update({
+        'bookid': FieldValue.arrayUnion([isbncontroller.text])
+      });
+      student.update({
+        'bookname': FieldValue.arrayUnion([namecontroller.text])
+      });
+      student.update({
+        'issuedates': FieldValue.arrayUnion([_dateTime])
+      });
+      FocusManager.instance.primaryFocus?.unfocus();
+      _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 1),
+          content: Text("Successfully issued book")));
+    } else {
+      _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 1),
+          content: Text("Book does not exist !")));
+    }
     namecontroller.clear();
     isbncontroller.clear();
     admissioncontroller.clear();
     FocusManager.instance.primaryFocus?.unfocus();
-    _scaffoldKey.currentState?.showSnackBar(const SnackBar(
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 1),
-        content: Text("Successfully added book")));
   }
 
   @override
