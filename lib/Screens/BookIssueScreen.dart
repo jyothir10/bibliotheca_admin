@@ -28,7 +28,7 @@ class _BookIssueScreenState extends State<BookIssueScreen> {
         .collection('Students')
         .doc(admissioncontroller.text);
 
-    final book = await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('Books')
         .doc(isbncontroller.text)
         .get()
@@ -93,7 +93,7 @@ class _BookIssueScreenState extends State<BookIssueScreen> {
                         )
                       : Container(),
                   MediaQuery.of(context).viewInsets.bottom == 0
-                      ? Text(
+                      ? const Text(
                           'Book Issue',
                           style: TextStyle(
                             color: Colors.black,
