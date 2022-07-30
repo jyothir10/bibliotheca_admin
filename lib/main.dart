@@ -1,4 +1,5 @@
 import 'package:bibliotheca_admin/Screens/AddBookScreen.dart';
+import 'package:bibliotheca_admin/Screens/BookIssueScreen.dart';
 import 'package:bibliotheca_admin/Screens/ContactUsScreen.dart';
 import 'package:bibliotheca_admin/Screens/DashBoardScreen.dart';
 import 'package:bibliotheca_admin/Screens/LoginScreen.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         SearchScreen1.id: (context) => SearchScreen1(),
         SearchScreen2.id: (context) => SearchScreen2(),
         SearchScreen3.id: (context) => SearchScreen3(),
+        BookIssueScreen.id: (context) => BookIssueScreen(),
       },
     );
   }
