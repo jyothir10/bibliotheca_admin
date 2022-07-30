@@ -1,9 +1,10 @@
+import 'package:bibliotheca_admin/Components/Background.dart';
+import 'package:bibliotheca_admin/Components/GreenButton.dart';
+import 'package:bibliotheca_admin/Components/LoginScreenTextfiled.dart';
+import 'package:bibliotheca_admin/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bibliotheca_admin/Components/Background.dart';
-import 'package:bibliotheca_admin/constants.dart';
-import 'package:bibliotheca_admin/Components/LoginScreenTextfiled.dart';
-import 'package:bibliotheca_admin/Components/GreenButton.dart';
 
 class BookIssueScreen extends StatefulWidget {
   static const String id = '/bookissue';
@@ -15,14 +16,39 @@ class BookIssueScreen extends StatefulWidget {
 }
 
 class _BookIssueScreenState extends State<BookIssueScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   DateTime _dateTime = DateTime.now();
   TextEditingController namecontroller = TextEditingController();
   TextEditingController admissioncontroller = TextEditingController();
   TextEditingController isbncontroller = TextEditingController();
 
+  Future issueBook() async {
+    final student = FirebaseFirestore.instance
+        .collection('Students')
+        .doc(admissioncontroller.text);
+    student.update({
+      'bookid': FieldValue.arrayUnion([isbncontroller.text])
+    });
+    student.update({
+      'bookname': FieldValue.arrayUnion([namecontroller.text])
+    });
+    student.update({
+      'issuedates': FieldValue.arrayUnion([_dateTime])
+    });
+    namecontroller.clear();
+    isbncontroller.clear();
+    admissioncontroller.clear();
+    FocusManager.instance.primaryFocus?.unfocus();
+    _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+        behavior: SnackBarBehavior.floating,
+        duration: Duration(seconds: 1),
+        content: Text("Successfully added book")));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Stack(
         children: [
           Background(),
@@ -34,37 +60,39 @@ class _BookIssueScreenState extends State<BookIssueScreen> {
                 children: [
                   MediaQuery.of(context).viewInsets.bottom == 0
                       ? Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(
-                          Icons.arrow_back,
-                          color: primaryColour,
-                        ),
-                      ),
-                    ],
-                  ):Container(),
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Icon(
+                                Icons.arrow_back,
+                                color: primaryColour,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(),
                   MediaQuery.of(context).viewInsets.bottom == 0
                       ? Text(
-                    'Book Issue',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 32,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w600,
-                      shadows: [
-                        BoxShadow(
-                          color: Color(0x7fffffff),
-                          offset: Offset(0, 4),
-                          blurRadius: 4,
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                  ):Container(),
+                          'Book Issue',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 32,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w600,
+                            shadows: [
+                              BoxShadow(
+                                color: Color(0x7fffffff),
+                                offset: Offset(0, 4),
+                                blurRadius: 4,
+                                spreadRadius: 0,
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(),
                   Container(
                     width: MediaQuery.of(context).size.width * .91062,
                     height: 450,
@@ -137,7 +165,9 @@ class _BookIssueScreenState extends State<BookIssueScreen> {
                                       child: Row(
                                         children: [
                                           Text(
-                                            _dateTime.toString().substring(0, 10),
+                                            _dateTime
+                                                .toString()
+                                                .substring(0, 10),
                                             style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
@@ -145,7 +175,10 @@ class _BookIssueScreenState extends State<BookIssueScreen> {
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
-                                          Icon(Icons.calendar_month,color: primaryColour,)
+                                          Icon(
+                                            Icons.calendar_month,
+                                            color: primaryColour,
+                                          )
                                         ],
                                       ),
                                     ),
@@ -157,7 +190,9 @@ class _BookIssueScreenState extends State<BookIssueScreen> {
                           GreenButton(
                               text: "Submit",
                               width: MediaQuery.of(context).size.width * .408,
-                              onTap: () {})
+                              onTap: () {
+                                issueBook();
+                              })
                         ],
                       ),
                     ),
