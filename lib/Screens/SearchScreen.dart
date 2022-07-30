@@ -1,5 +1,6 @@
 import 'package:bibliotheca_admin/Components/GreenButton.dart';
 import 'package:bibliotheca_admin/Components/WhiteButton.dart';
+import 'package:bibliotheca_admin/Screens/SearchScreen1.dart';
 import 'package:bibliotheca_admin/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -67,7 +68,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: WhiteButton(
                     text: 'Book Name',
                     width: 150,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, SearchScreen1.id);
+                    },
                   ),
                 ),
                 Container(
