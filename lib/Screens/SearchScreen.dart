@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SearchScreen extends StatefulWidget {
-  static const String id = '/search1';
+  static const String id = '/searchmain';
   const SearchScreen({Key? key}) : super(key: key);
 
   @override
@@ -30,7 +30,9 @@ class _SearchScreenState extends State<SearchScreen> {
           left: 12,
           top: 48,
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: const Icon(
               Icons.arrow_back_rounded,
               size: 30,
