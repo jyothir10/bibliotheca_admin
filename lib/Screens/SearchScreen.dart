@@ -1,6 +1,8 @@
 import 'package:bibliotheca_admin/Components/GreenButton.dart';
 import 'package:bibliotheca_admin/Components/WhiteButton.dart';
 import 'package:bibliotheca_admin/Screens/SearchScreen1.dart';
+import 'package:bibliotheca_admin/Screens/SearchScreen2.dart';
+import 'package:bibliotheca_admin/Screens/SearchScreen3.dart';
 import 'package:bibliotheca_admin/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -81,13 +83,17 @@ class _SearchScreenState extends State<SearchScreen> {
                         child: GreenButton(
                           text: 'Author',
                           width: 150,
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(context, SearchScreen2.id);
+                          },
                         ),
                       ),
                       GreenButton(
                         text: 'Department',
                         width: 150,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, SearchScreen3.id);
+                        },
                       ),
                     ],
                   ),

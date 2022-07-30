@@ -4,6 +4,8 @@ import 'package:bibliotheca_admin/Screens/DashBoardScreen.dart';
 import 'package:bibliotheca_admin/Screens/LoginScreen.dart';
 import 'package:bibliotheca_admin/Screens/SearchScreen.dart';
 import 'package:bibliotheca_admin/Screens/SearchScreen1.dart';
+import 'package:bibliotheca_admin/Screens/SearchScreen2.dart';
+import 'package:bibliotheca_admin/Screens/SearchScreen3.dart';
 import 'package:bibliotheca_admin/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
             ),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: SearchScreen1.id,
+      initialRoute: SplashScreen.id,
       routes: {
         SplashScreen.id: (context) => SplashScreen(),
         LoginScreen.id: (context) => LoginScreen(),
@@ -43,6 +45,8 @@ class MyApp extends StatelessWidget {
         ContactUs.id: (context) => ContactUs(),
         SearchScreen.id: (context) => SearchScreen(),
         SearchScreen1.id: (context) => SearchScreen1(),
+        SearchScreen2.id: (context) => SearchScreen2(),
+        SearchScreen3.id: (context) => SearchScreen3(),
       },
     );
   }

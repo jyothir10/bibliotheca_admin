@@ -17,7 +17,6 @@ class _SearchScreen1State extends State<SearchScreen1> {
   TextEditingController searchcontroller = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   late QuerySnapshot snapshotData;
-  bool isExecuted = false;
   String searchVal = "";
   @override
   Widget build(BuildContext context) {
@@ -70,7 +69,7 @@ class _SearchScreen1State extends State<SearchScreen1> {
                                   BorderSide(color: primaryColour, width: 1.0),
                             ),
                             prefixIconColor: primaryColour,
-                            suffixIcon: IconButton(
+                            prefixIcon: IconButton(
                               icon: Icon(Icons.search),
                               onPressed: () {},
                             ),
