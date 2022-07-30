@@ -2,6 +2,8 @@ import 'package:bibliotheca_admin/Components/Background.dart';
 import 'package:bibliotheca_admin/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../Components/SearchCard.dart';
+
 class SearchScreen1 extends StatefulWidget {
   static const String id = '/search1';
   const SearchScreen1({Key? key}) : super(key: key);
@@ -52,6 +54,22 @@ class _SearchScreen1State extends State<SearchScreen1> {
                         border: OutlineInputBorder(),
                         hintText: 'Search Book Name'
                             '',
+                      ),
+                    ),
+                    Flexible(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 18),
+                        child: SingleChildScrollView(
+                          child: SearchCard(
+                            name: 'Computer Fundamentals and Programming in C',
+                            author: "Reema Thareja",
+                            branch: "cse",
+                            isbn: "AC963127",
+                            shelf: 9,
+                            rack: 3,
+                            status: false,
+                          ),
+                        ),
                       ),
                     ),
                   ],
