@@ -1,4 +1,5 @@
 import 'package:bibliotheca_admin/Screens/AddBookScreen.dart';
+import 'package:bibliotheca_admin/Screens/AddLibrarianScreen.dart';
 import 'package:bibliotheca_admin/Screens/BookIssueScreen.dart';
 import 'package:bibliotheca_admin/Screens/BookReturnScreen.dart';
 import 'package:bibliotheca_admin/Screens/ContactUsScreen.dart';
@@ -8,6 +9,7 @@ import 'package:bibliotheca_admin/Screens/SearchScreen.dart';
 import 'package:bibliotheca_admin/Screens/SearchScreen1.dart';
 import 'package:bibliotheca_admin/Screens/SearchScreen2.dart';
 import 'package:bibliotheca_admin/Screens/SearchScreen3.dart';
+import 'package:bibliotheca_admin/Screens/SearchStudentScreen.dart';
 import 'package:bibliotheca_admin/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +53,8 @@ class MyApp extends StatelessWidget {
         SearchScreen3.id: (context) => SearchScreen3(),
         BookIssueScreen.id: (context) => BookIssueScreen(),
         BookReturnScreen.id: (context) => BookReturnScreen(),
+        AddLibrarianScreen.id: (conttext) => AddLibrarianScreen(),
+        SearchStudentScreen.id: (context) => SearchStudentScreen(),
       },
     );
   }
