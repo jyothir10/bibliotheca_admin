@@ -4,7 +4,9 @@ import 'package:bibliotheca_admin/Components/DashBoardCard.dart';
 import 'package:bibliotheca_admin/Screens/AddBookScreen.dart';
 import 'package:bibliotheca_admin/Screens/AddLibrarianScreen.dart';
 import 'package:bibliotheca_admin/Screens/BookIssueScreen.dart';
+import 'package:bibliotheca_admin/Screens/BookReturnScreen.dart';
 import 'package:bibliotheca_admin/Screens/SearchScreen.dart';
+import 'package:bibliotheca_admin/Screens/SearchStudentScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -71,7 +73,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       DashBoardCard(
                         img: "images/dashboard/return.svg",
                         text: 'Return Book',
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, BookReturnScreen.id);
+                        },
                       ),
                       DashBoardCard(
                         img: "images/dashboard/reg.svg",
@@ -83,7 +87,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       DashBoardCard(
                         img: "images/dashboard/searchs.svg",
                         text: 'Search Student',
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, SearchStudentScreen.id);
+                        },
                       ),
                       DashBoardCard(
                         img: "images/dashboard/searchb.svg",
