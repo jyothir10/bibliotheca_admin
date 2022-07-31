@@ -22,6 +22,7 @@ class _BookIssueScreenState extends State<BookIssueScreen> {
   TextEditingController admissioncontroller = TextEditingController();
   TextEditingController isbncontroller = TextEditingController();
   bool exist = false;
+  bool isavail = true;
 
   Future issueBook() async {
     final student = FirebaseFirestore.instance
@@ -37,20 +38,35 @@ class _BookIssueScreenState extends State<BookIssueScreen> {
     });
 
     if (exist == true) {
-      student.update({
-        'bookid': FieldValue.arrayUnion([isbncontroller.text])
+      await FirebaseFirestore.instance.collection('Books').get().then((value) {
+        isavail = value.docs[0]['isavail'];
       });
-      student.update({
-        'bookname': FieldValue.arrayUnion([namecontroller.text])
-      });
-      student.update({
-        'issuedates': FieldValue.arrayUnion([_dateTime])
-      });
-      FocusManager.instance.primaryFocus?.unfocus();
-      _scaffoldKey.currentState?.showSnackBar(const SnackBar(
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 1),
-          content: Text("Successfully issued book")));
+
+      if (isavail) {
+        final book = FirebaseFirestore.instance
+            .collection('Books')
+            .doc(isbncontroller.text);
+        book.update({'isavail': false});
+        student.update({
+          'bookid': FieldValue.arrayUnion([isbncontroller.text])
+        });
+        student.update({
+          'bookname': FieldValue.arrayUnion([namecontroller.text])
+        });
+        student.update({
+          'issuedates': FieldValue.arrayUnion([_dateTime])
+        });
+        FocusManager.instance.primaryFocus?.unfocus();
+        _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 1),
+            content: Text("Successfully issued book")));
+      } else {
+        _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 1),
+            content: Text("Book is not available !")));
+      }
     } else {
       _scaffoldKey.currentState?.showSnackBar(const SnackBar(
           behavior: SnackBarBehavior.floating,

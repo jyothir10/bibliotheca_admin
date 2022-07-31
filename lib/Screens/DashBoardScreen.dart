@@ -2,6 +2,8 @@ import 'package:bibliotheca_admin/Components/Background.dart';
 import 'package:bibliotheca_admin/Components/BottomBar.dart';
 import 'package:bibliotheca_admin/Components/DashBoardCard.dart';
 import 'package:bibliotheca_admin/Screens/AddBookScreen.dart';
+import 'package:bibliotheca_admin/Screens/AddLibrarianScreen.dart';
+import 'package:bibliotheca_admin/Screens/BookIssueScreen.dart';
 import 'package:bibliotheca_admin/Screens/SearchScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +64,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       DashBoardCard(
                         img: "images/dashboard/issue.svg",
                         text: 'Issue Book',
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, BookIssueScreen.id);
+                        },
                       ),
                       DashBoardCard(
                         img: "images/dashboard/return.svg",
@@ -91,7 +95,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       DashBoardCard(
                         img: "images/dashboard/librarian.svg",
                         text: 'Add New Librarian',
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, AddLibrarianScreen.id);
+                        },
                       ),
                     ],
                   ),
