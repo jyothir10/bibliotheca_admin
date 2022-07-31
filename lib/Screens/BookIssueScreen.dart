@@ -39,7 +39,11 @@ class _BookIssueScreenState extends State<BookIssueScreen> {
 
     if (exist == true) {
       await FirebaseFirestore.instance.collection('Books').get().then((value) {
-        isavail = value.docs[0]['isavail'];
+        for (var i = 0; i < value.docs.length; i++) {
+          if (value.docs[i]['id'] == isbncontroller.text) {
+            isavail = value.docs[i]['isavail'];
+          }
+        }
       });
 
       if (isavail) {
