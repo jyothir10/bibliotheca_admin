@@ -5,6 +5,7 @@ import 'package:bibliotheca_admin/Screens/BookReturnScreen.dart';
 import 'package:bibliotheca_admin/Screens/ContactUsScreen.dart';
 import 'package:bibliotheca_admin/Screens/DashBoardScreen.dart';
 import 'package:bibliotheca_admin/Screens/LoginScreen.dart';
+import 'package:bibliotheca_admin/Screens/ProfileScreen.dart';
 import 'package:bibliotheca_admin/Screens/SearchScreen.dart';
 import 'package:bibliotheca_admin/Screens/SearchScreen1.dart';
 import 'package:bibliotheca_admin/Screens/SearchScreen2.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
             ),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: FineDetails.id,
+      initialRoute: ProfileScreen.id,
       routes: {
         SplashScreen.id: (context) => SplashScreen(),
         LoginScreen.id: (context) => LoginScreen(),
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         AddLibrarianScreen.id: (context) => AddLibrarianScreen(),
         SearchStudentScreen.id: (context) => SearchStudentScreen(),
         FineDetails.id: (context) => FineDetails(),
+        ProfileScreen.id: (context) => ProfileScreen(),
       },
     );
   }
