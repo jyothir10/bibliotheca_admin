@@ -1,6 +1,5 @@
 import 'package:bibliotheca_admin/Components/Background.dart';
 import 'package:bibliotheca_admin/Components/SearchCard.dart';
-import 'package:bibliotheca_admin/Screens/SearchScreen.dart';
 import 'package:bibliotheca_admin/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,7 @@ class _SearchScreen1State extends State<SearchScreen1> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pushReplacementNamed(context, SearchScreen.id);
+        Navigator.pop(context);
         return false;
       },
       child: Scaffold(
@@ -90,23 +89,26 @@ class _SearchScreen1State extends State<SearchScreen1> {
                                   return (snapshots.connectionState ==
                                           ConnectionState.waiting)
                                       ? Container()
-                                      : ListView.builder(
-                                          itemCount:
-                                              snapshots.data!.docs.length,
-                                          itemBuilder: (context, index) {
-                                            var data = snapshots
-                                                .data!.docs[index]
-                                                .data() as Map<String, dynamic>;
-                                            return SearchCard(
-                                              name: data['name'],
-                                              author: data['author'],
-                                              branch: data['branch'],
-                                              isbn: data['id'],
-                                              shelf: data['shelf'],
-                                              rack: data['rack'],
-                                              status: data['isavail'],
-                                            );
-                                          });
+                                      : Padding(
+                                        padding: const EdgeInsets.only(bottom: 15),
+                                        child: ListView.builder(
+                                            itemCount:
+                                                snapshots.data!.docs.length,
+                                            itemBuilder: (context, index) {
+                                              var data = snapshots
+                                                  .data!.docs[index]
+                                                  .data() as Map<String, dynamic>;
+                                              return SearchCard(
+                                                name: data['name'],
+                                                author: data['author'],
+                                                branch: data['branch'],
+                                                isbn: data['id'],
+                                                shelf: data['shelf'],
+                                                rack: data['rack'],
+                                                status: data['isavail'],
+                                              );
+                                            }),
+                                      );
                                 },
                               ),
                             )
@@ -127,30 +129,33 @@ class _SearchScreen1State extends State<SearchScreen1> {
                                   return (snapshots.connectionState ==
                                           ConnectionState.waiting)
                                       ? Container()
-                                      : ListView.builder(
-                                          itemCount:
-                                              snapshots.data!.docs.length,
-                                          itemBuilder: (context, index) {
-                                            var data = snapshots
-                                                .data!.docs[index]
-                                                .data() as Map<String, dynamic>;
-                                            if (data['name']
-                                                .toString()
-                                                .toLowerCase()
-                                                .contains(
-                                                    searchVal.toLowerCase())) {
-                                              return SearchCard(
-                                                name: data['name'],
-                                                author: data['author'],
-                                                branch: data['branch'],
-                                                isbn: data['id'],
-                                                shelf: data['shelf'],
-                                                rack: data['rack'],
-                                                status: data['isavail'],
-                                              );
-                                            }
-                                            return Container();
-                                          });
+                                      : Padding(
+                                        padding: const EdgeInsets.only(bottom: 15),
+                                        child: ListView.builder(
+                                            itemCount:
+                                                snapshots.data!.docs.length,
+                                            itemBuilder: (context, index) {
+                                              var data = snapshots
+                                                  .data!.docs[index]
+                                                  .data() as Map<String, dynamic>;
+                                              if (data['name']
+                                                  .toString()
+                                                  .toLowerCase()
+                                                  .contains(
+                                                      searchVal.toLowerCase())) {
+                                                return SearchCard(
+                                                  name: data['name'],
+                                                  author: data['author'],
+                                                  branch: data['branch'],
+                                                  isbn: data['id'],
+                                                  shelf: data['shelf'],
+                                                  rack: data['rack'],
+                                                  status: data['isavail'],
+                                                );
+                                              }
+                                              return Container();
+                                            }),
+                                      );
                                 },
                               ),
                             ),

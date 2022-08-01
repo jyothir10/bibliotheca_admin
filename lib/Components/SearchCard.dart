@@ -50,7 +50,7 @@ class SearchCard extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                     primary:
                         status == true ? Color(0xff9dff22) : Colors.redAccent,
-                    maximumSize: Size(155, 33),
+                    maximumSize: Size(158, 33),
                     minimumSize: Size(150, 33),
                     elevation: 5),
                 onPressed: () {},
