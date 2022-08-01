@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
             ),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: ProfileScreen.id,
+      initialRoute: SplashScreen.id,
       routes: {
         SplashScreen.id: (context) => SplashScreen(),
         LoginScreen.id: (context) => LoginScreen(),

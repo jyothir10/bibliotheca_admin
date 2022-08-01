@@ -1,11 +1,14 @@
 import 'dart:math' as math;
-import 'package:bibliotheca_admin/Components/prop-value_widget.dart';
-import 'package:bibliotheca_admin/Components/prop-value_text.dart';
+
 import 'package:bibliotheca_admin/Components/GreenButton.dart';
+import 'package:bibliotheca_admin/Components/profile-field_widget.dart';
+import 'package:bibliotheca_admin/Components/prop-value_text.dart';
+import 'package:bibliotheca_admin/Components/prop-value_widget.dart';
+import 'package:bibliotheca_admin/Screens/LoginScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import '../Components/BottomBar.dart';
-import 'package:bibliotheca_admin/Components/profile-field_widget.dart';
 import '../constants.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -32,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
-    //Navigator.pushReplacementNamed(context, OnboardingScreen.id);
+    Navigator.pushReplacementNamed(context, LoginScreen.id);
   }
 
   @override
@@ -63,7 +66,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 358,
                   decoration: BoxDecoration(
                     color: const Color(0xff00B9B9).withOpacity(0.90),
-                    borderRadius: const BorderRadius.all(Radius.elliptical(498, 358)),
+                    borderRadius:
+                        const BorderRadius.all(Radius.elliptical(498, 358)),
                   ))),
           Positioned(
             left: 12,
@@ -114,9 +118,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           return profileField(
                               w: propValueWidget(
-                                widget1: property[index],
-                                widget2: value[index],
-                              ));
+                            widget1: property[index],
+                            widget2: value[index],
+                          ));
                         }),
                     Padding(
                       padding: const EdgeInsets.only(top: 18),
