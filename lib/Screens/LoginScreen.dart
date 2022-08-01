@@ -74,13 +74,26 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  DateTime? currentBackPressTime;
+
+  Future<bool> onWillPop() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 1),
+          content: Text("Press back again to exit")));
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        //Navigator.pushReplacementNamed(context, OnboardingScreen.id);
-        return false;
-      },
+      onWillPop: onWillPop,
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: Colors.white,
@@ -178,20 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       }
                                     },
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      //todo: nav
-                                    },
-                                    child: const Text(
-                                      'Haven’t Registered Yet?',
-                                      style: TextStyle(
-                                        color: Color(0xff2b4f70),
-                                        fontSize: 18,
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
+
                                   //: Container(),
                                 ],
                               ),

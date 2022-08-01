@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:bibliotheca_admin/Components/Background.dart';
-import 'package:bibliotheca_admin/constants.dart';
 import 'package:bibliotheca_admin/Components/GreenButton.dart';
+import 'package:bibliotheca_admin/constants.dart';
+import 'package:flutter/material.dart';
 
 class BookReturnScreen extends StatefulWidget {
   static const String id = '/book_return';
@@ -13,9 +13,9 @@ class BookReturnScreen extends StatefulWidget {
 }
 
 class _BookReturnScreenState extends State<BookReturnScreen> {
-
   DateTime _dateTime = DateTime.now();
   TextEditingController searchcontroller = TextEditingController();
+  String admno = "";
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,8 @@ class _BookReturnScreenState extends State<BookReturnScreen> {
           SafeArea(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
                 child: Column(
                   children: [
                     Row(
@@ -64,17 +65,19 @@ class _BookReturnScreenState extends State<BookReturnScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 10),
                       child: TextField(
                         onChanged: (val) {
                           setState(() {
+                            admno = val;
                           });
                         },
                         controller: searchcontroller,
                         decoration: InputDecoration(
                           focusedBorder: const OutlineInputBorder(
                             borderSide:
-                            BorderSide(color: primaryColour, width: 1.0),
+                                BorderSide(color: primaryColour, width: 1.0),
                           ),
                           prefixIconColor: primaryColour,
                           prefixIcon: IconButton(
@@ -87,7 +90,14 @@ class _BookReturnScreenState extends State<BookReturnScreen> {
                         ),
                       ),
                     ),
-                    BookReturnCard(name: "System Software",number: '978-3-16-148410-0',issuedate: '29-06-2022',duedate: '15-07-2022', dateTime: _dateTime),
+                    admno.length == 6
+                        ? BookReturnCard(
+                            name: "System Software",
+                            number: '978-3-16-148410-0',
+                            issuedate: '29-06-2022',
+                            duedate: '15-07-2022',
+                            dateTime: _dateTime)
+                        : Container(),
                   ],
                 ),
               ),
@@ -100,13 +110,19 @@ class _BookReturnScreenState extends State<BookReturnScreen> {
 }
 
 class BookReturnCard extends StatefulWidget {
-
   final String name;
   final String number;
   final String issuedate;
   final String duedate;
   DateTime dateTime;
-  BookReturnCard({Key? key, required this.name, required this.dateTime, required this.number, required this.issuedate, required this.duedate}) : super(key: key);
+  BookReturnCard(
+      {Key? key,
+      required this.name,
+      required this.dateTime,
+      required this.number,
+      required this.issuedate,
+      required this.duedate})
+      : super(key: key);
 
   @override
   State<BookReturnCard> createState() => _BookReturnCardState();
@@ -132,11 +148,12 @@ class _BookReturnCardState extends State<BookReturnCard> {
         width: MediaQuery.of(context).size.width * .8,
         height: 350,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text(widget.name,
+              Text(
+                widget.name,
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 24,
@@ -149,8 +166,9 @@ class _BookReturnCardState extends State<BookReturnCard> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children:  [
-                  const Text('ISBN Number : ',
+                children: [
+                  const Text(
+                    'ISBN Number : ',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
@@ -158,27 +176,8 @@ class _BookReturnCardState extends State<BookReturnCard> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Text(widget.number,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontFamily: 'Montserrat',
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children:[
-                  const Text('Issue Date : ',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(widget.issuedate,
+                  Text(
+                    widget.number,
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -190,7 +189,8 @@ class _BookReturnCardState extends State<BookReturnCard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Due Date : ',
+                  const Text(
+                    'Issue Date : ',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
@@ -198,7 +198,30 @@ class _BookReturnCardState extends State<BookReturnCard> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Text(widget.duedate,
+                  Text(
+                    widget.issuedate,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontFamily: 'Montserrat',
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Due Date : ',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    widget.duedate,
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -222,10 +245,10 @@ class _BookReturnCardState extends State<BookReturnCard> {
                   InkWell(
                     onTap: () {
                       showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2019),
-                          lastDate: DateTime.now())
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2019),
+                              lastDate: DateTime.now())
                           .then((date) {
                         setState(() {
                           widget.dateTime = date!;
@@ -248,7 +271,10 @@ class _BookReturnCardState extends State<BookReturnCard> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            const Icon(Icons.calendar_month,color: primaryColour,)
+                            const Icon(
+                              Icons.calendar_month,
+                              color: primaryColour,
+                            )
                           ],
                         ),
                       ),
