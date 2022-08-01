@@ -65,7 +65,7 @@ class _BottomBarState extends State<BottomBar> {
             ),
             label: ' Fine',
             activeIcon: SvgPicture.asset(
-              'images/bottomnavigationbar/fine.svg',
+              'images/bottomnavigationbar/fine1.svg',
               height: 23,
             ),
           ),
