@@ -1,5 +1,7 @@
 import 'package:bibliotheca_admin/Screens/ContactUsScreen.dart';
 import 'package:bibliotheca_admin/Screens/DashBoardScreen.dart';
+import 'package:bibliotheca_admin/Screens/ProfileScreen.dart';
+import 'package:bibliotheca_admin/Screens/fine_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -15,9 +17,9 @@ class _BottomBarState extends State<BottomBar> {
   int _selectedIndex = 0;
   final pages = [
     DashBoardScreen.id,
-    DashBoardScreen.id,
+    FineDetails.id,
     ContactUs.id,
-    DashBoardScreen.id,
+    ProfileScreen.id,
   ];
 
   void _onItemTapped(int index) {
