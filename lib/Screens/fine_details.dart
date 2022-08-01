@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import '../Components/BottomBar.dart';
 import '../Components/card.dart';
 
 class FineDetails extends StatefulWidget {
@@ -96,6 +97,9 @@ class _FineDetailsState extends State<FineDetails> {
         ),
 
       ]),
+      bottomNavigationBar: const BottomBar(
+        index: 1,
+      ),
     );
   }
 }
