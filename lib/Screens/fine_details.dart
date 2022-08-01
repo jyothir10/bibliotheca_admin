@@ -37,14 +37,14 @@ class _FineDetailsState extends State<FineDetails> {
           ),
         ),
         Positioned(
-          top: 400,
-          right: 30,
+          top: 500,
+          right: -5,
           child: Container(
-            height: 150,
-            width: 150,
+            height: 190,
+            width: 190,
             decoration: BoxDecoration(
               color: Color(0xff00B9B9),
-              borderRadius: BorderRadius.all(Radius.circular((150)),
+              borderRadius: BorderRadius.all(Radius.circular((190)),
               ),
             ),
           ),
