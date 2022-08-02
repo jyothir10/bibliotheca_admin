@@ -5,6 +5,8 @@ import 'package:bibliotheca_admin/constants.dart';
 import 'package:blobs/blobs.dart';
 import 'package:flutter/material.dart';
 
+import 'DashBoardScreen.dart';
+
 class ContactUs extends StatefulWidget {
   static const String id = '/contact_us';
   const ContactUs({Key? key}) : super(key: key);
@@ -16,87 +18,84 @@ class ContactUs extends StatefulWidget {
 class _ContactUsState extends State<ContactUs> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      bottomNavigationBar: const BottomBar(
-        index: 2,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(left: 10, top: 50),
-              child: IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.arrow_back_rounded,
-                  size: 30,
-                  color: Colors.black26,
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushReplacementNamed(context, DashBoardScreen.id);
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        bottomNavigationBar: const BottomBar(
+          index: 2,
+        ),
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 20, bottom: 10),
-                  child: const Text(
-                    'Contact Us',
-                    style: TextStyle(
-                      color: primaryColour,
-                      fontSize: 32,
-                      fontFamily: 'Montserrat',
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 50, bottom: 10),
+                      child: const Text(
+                        'Contact Us',
+                        style: TextStyle(
+                          color: primaryColour,
+                          fontSize: 32,
+                          fontFamily: 'Montserrat',
+                        ),
+                      ),
                     ),
+                  ],
+                ),
+                Center(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Transform.rotate(
+                        angle: math.pi / 2 + math.pi / 9,
+                        child: Blob.fromID(
+                          styles: BlobStyles(
+                            color: const Color(0xffB0EDE2).withOpacity(0.50),
+                          ),
+                          id: const ['13-6-9822'],
+                          size: 380,
+                        ),
+                      ),
+                      const CircleAvatar(
+                        backgroundImage:
+                            AssetImage("images/male-call-center-operator.gif"),
+                        radius: 100,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const card(
+                        title: 'Phone Number',
+                        subtitle: '+91-8157043491',
+                        ic: Icons.phone,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        child: const card(
+                            title: 'E-mail ID',
+                            subtitle: 'j.adithyan16@gmail.com',
+                            ic: Icons.email_outlined),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-            Center(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Transform.rotate(
-                    angle: math.pi / 2 + math.pi / 9,
-                    child: Blob.fromID(
-                      styles: BlobStyles(
-                        color: const Color(0xffB0EDE2).withOpacity(0.50),
-                      ),
-                      id: const ['13-6-9822'],
-                      size: 380,
-                    ),
-                  ),
-                  const CircleAvatar(
-                    backgroundImage:
-                        AssetImage("images/male-call-center-operator.gif"),
-                    radius: 100,
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const card(
-                    title: 'Phone Number',
-                    subtitle: '+91-123456789',
-                    ic: Icons.phone,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: const card(
-                        title: 'E-mail ID',
-                        subtitle: 'abc@gcek.ac.in',
-                        ic: Icons.email_outlined),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

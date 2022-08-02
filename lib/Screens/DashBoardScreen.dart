@@ -39,79 +39,83 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Colors.white,
-      bottomNavigationBar: BottomBar(
-        index: 0,
-      ),
-      body: Stack(
-        children: [
-          Background(),
-          SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                    18, MediaQuery.of(context).size.height * .1, 18, 15),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: GridView(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 30,
-                            crossAxisSpacing: 21),
-                    children: [
-                      DashBoardCard(
-                        img: "images/dashboard/issue.svg",
-                        text: 'Issue Book',
-                        onTap: () {
-                          Navigator.pushNamed(context, BookIssueScreen.id);
-                        },
-                      ),
-                      DashBoardCard(
-                        img: "images/dashboard/return.svg",
-                        text: 'Return Book',
-                        onTap: () {
-                          Navigator.pushNamed(context, BookReturnScreen.id);
-                        },
-                      ),
-                      DashBoardCard(
-                        img: "images/dashboard/reg.svg",
-                        text: 'Add New Book',
-                        onTap: () {
-                          Navigator.pushNamed(context, AddBookScreen.id);
-                        },
-                      ),
-                      DashBoardCard(
-                        img: "images/dashboard/searchs.svg",
-                        text: 'Search Student',
-                        onTap: () {
-                          Navigator.pushNamed(context, SearchStudentScreen.id);
-                        },
-                      ),
-                      DashBoardCard(
-                        img: "images/dashboard/searchb.svg",
-                        text: 'Search Book',
-                        onTap: () {
-                          Navigator.pushNamed(context, SearchScreen.id);
-                        },
-                      ),
-                      DashBoardCard(
-                        img: "images/dashboard/librarian.svg",
-                        text: 'Add New Librarian',
-                        onTap: () {
-                          Navigator.pushNamed(context, AddLibrarianScreen.id);
-                        },
-                      ),
-                    ],
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: Colors.white,
+        bottomNavigationBar: BottomBar(
+          index: 0,
+        ),
+        body: Stack(
+          children: [
+            Background(),
+            SafeArea(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      18, MediaQuery.of(context).size.height * .1, 18, 15),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: GridView(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 30,
+                              crossAxisSpacing: 21),
+                      children: [
+                        DashBoardCard(
+                          img: "images/dashboard/issue.svg",
+                          text: 'Issue Book',
+                          onTap: () {
+                            Navigator.pushNamed(context, BookIssueScreen.id);
+                          },
+                        ),
+                        DashBoardCard(
+                          img: "images/dashboard/return.svg",
+                          text: 'Return Book',
+                          onTap: () {
+                            Navigator.pushNamed(context, BookReturnScreen.id);
+                          },
+                        ),
+                        DashBoardCard(
+                          img: "images/dashboard/reg.svg",
+                          text: 'Add New Book',
+                          onTap: () {
+                            Navigator.pushNamed(context, AddBookScreen.id);
+                          },
+                        ),
+                        DashBoardCard(
+                          img: "images/dashboard/searchs.svg",
+                          text: 'Search Student',
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, SearchStudentScreen.id);
+                          },
+                        ),
+                        DashBoardCard(
+                          img: "images/dashboard/searchb.svg",
+                          text: 'Search Book',
+                          onTap: () {
+                            Navigator.pushNamed(context, SearchScreen.id);
+                          },
+                        ),
+                        DashBoardCard(
+                          img: "images/dashboard/librarian.svg",
+                          text: 'Add New Librarian',
+                          onTap: () {
+                            Navigator.pushNamed(context, AddLibrarianScreen.id);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

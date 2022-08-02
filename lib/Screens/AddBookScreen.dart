@@ -211,12 +211,27 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       ),
                     ),
                     GreenButton(
-                        text: "Add Book",
-                        width: MediaQuery.of(context).size.width * .408,
-                        onTap: () {
-                          //todo: add new book
+                      text: "Add Book",
+                      width: MediaQuery.of(context).size.width * .408,
+                      onTap: () {
+                        //todo: add new book
+                        if (isbncontroller.text.isNotEmpty &&
+                            namecontroller.text.isNotEmpty &&
+                            authorcontroller.text.isNotEmpty &&
+                            genrecontroller.text.isNotEmpty) {
                           addBook();
-                        })
+                        } else {
+                          _scaffoldKey.currentState?.showSnackBar(
+                            const SnackBar(
+                              behavior: SnackBarBehavior.floating,
+                              duration: Duration(seconds: 1),
+                              content: Text(
+                                  "Invalid entry! Please fill all the details "),
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ],
                 ),
               ))
