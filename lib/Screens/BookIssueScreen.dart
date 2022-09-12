@@ -18,6 +18,7 @@ class BookIssueScreen extends StatefulWidget {
 class _BookIssueScreenState extends State<BookIssueScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   DateTime _dateTime = DateTime.now();
+  DateTime _date_return = DateTime.now().add(const Duration(days: 15));
   TextEditingController namecontroller = TextEditingController();
   TextEditingController admissioncontroller = TextEditingController();
   TextEditingController isbncontroller = TextEditingController();
@@ -59,6 +60,9 @@ class _BookIssueScreenState extends State<BookIssueScreen> {
         });
         student.update({
           'issuedates': FieldValue.arrayUnion([_dateTime])
+        });
+        student.update({
+          'returndates': FieldValue.arrayUnion([_date_return])
         });
         FocusManager.instance.primaryFocus?.unfocus();
         _scaffoldKey.currentState?.showSnackBar(const SnackBar(
