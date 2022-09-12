@@ -52,6 +52,7 @@ class _BookIssueScreenState extends State<BookIssueScreen> {
             .collection('Books')
             .doc(isbncontroller.text);
         book.update({'isavail': false});
+
         student.update({
           'bookid': FieldValue.arrayUnion([isbncontroller.text])
         });

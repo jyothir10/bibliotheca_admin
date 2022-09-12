@@ -151,12 +151,67 @@ class _BookReturnScreenState extends State<BookReturnScreen> {
                                                           "${date_return.day}-${date_return.month}-${date_return.year}";
 
                                                       return BookReturnCard(
-                                                          name: l2[index],
-                                                          dateTime:
-                                                              DateTime.now(),
-                                                          number: l1[index],
-                                                          issuedate: issuedate,
-                                                          duedate: returndate);
+                                                        name: l2[index],
+                                                        dateTime:
+                                                            DateTime.now(),
+                                                        number: l1[index],
+                                                        issuedate: issuedate,
+                                                        duedate: returndate,
+                                                        onPressed: () {
+                                                          List d1 = [
+                                                            date_issue
+                                                          ];
+                                                          List d2 = [
+                                                            date_return
+                                                          ];
+                                                          List a = [l1[index]];
+                                                          List b = [l2[index]];
+                                                          final book =
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'Books')
+                                                                  .doc(l1[
+                                                                      index]);
+                                                          book.update({
+                                                            'isavail': true
+                                                          });
+
+                                                          //todo: return
+
+                                                          final student =
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'Students')
+                                                                  .doc(admno);
+
+                                                          student.update({
+                                                            'bookid': FieldValue
+                                                                .arrayRemove(a)
+                                                          });
+                                                          student.update({
+                                                            'bookname':
+                                                                FieldValue
+                                                                    .arrayRemove(
+                                                                        b)
+                                                          });
+                                                          student.update({
+                                                            'issuedates':
+                                                                FieldValue
+                                                                    .arrayRemove(
+                                                                        d1)
+                                                          });
+                                                          student.update({
+                                                            'returndates':
+                                                                FieldValue
+                                                                    .arrayRemove(
+                                                                        d2)
+                                                          });
+
+                                                          setState(() {});
+                                                        },
+                                                      );
                                                     }),
                                               ),
                                             );
@@ -202,14 +257,16 @@ class BookReturnCard extends StatefulWidget {
   final String issuedate;
   final String duedate;
   DateTime dateTime;
-  BookReturnCard(
-      {Key? key,
-      required this.name,
-      required this.dateTime,
-      required this.number,
-      required this.issuedate,
-      required this.duedate})
-      : super(key: key);
+  void Function()? onPressed;
+  BookReturnCard({
+    Key? key,
+    required this.name,
+    required this.dateTime,
+    required this.number,
+    required this.issuedate,
+    required this.duedate,
+    required this.onPressed,
+  }) : super(key: key);
 
   @override
   State<BookReturnCard> createState() => _BookReturnCardState();
@@ -372,7 +429,7 @@ class _BookReturnCardState extends State<BookReturnCard> {
               GreenButton(
                   text: "Return Book",
                   width: MediaQuery.of(context).size.width * .4,
-                  onTap: () {})
+                  onTap: widget.onPressed)
             ],
           ),
         ),
