@@ -1,6 +1,7 @@
 import 'package:bibliotheca_admin/Components/Background.dart';
 import 'package:bibliotheca_admin/Components/GreenButton.dart';
 import 'package:bibliotheca_admin/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class BookReturnScreen extends StatefulWidget {
@@ -16,6 +17,15 @@ class _BookReturnScreenState extends State<BookReturnScreen> {
   DateTime _dateTime = DateTime.now();
   TextEditingController searchcontroller = TextEditingController();
   String admno = "";
+  bool exist = false;
+  bool show = false;
+  late QueryDocumentSnapshot<Map<String, dynamic>> books;
+  List<String> bookids = [];
+  List<String> booknames = [];
+  List issuedates = [];
+  List returndates = [];
+
+  getBooks() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +81,9 @@ class _BookReturnScreenState extends State<BookReturnScreen> {
                         onChanged: (val) {
                           setState(() {
                             admno = val;
+                            if (admno.length == 6) {
+                              show = true;
+                            }
                           });
                         },
                         controller: searchcontroller,
@@ -90,13 +103,142 @@ class _BookReturnScreenState extends State<BookReturnScreen> {
                         ),
                       ),
                     ),
-                    admno.length == 6
-                        ? BookReturnCard(
-                            name: "System Software",
-                            number: '978-3-16-148410-0',
-                            issuedate: '29-06-2022',
-                            duedate: '15-07-2022',
-                            dateTime: _dateTime)
+                    show == true
+                        ? Container(
+                            height: 565,
+                            child: StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection('Students')
+                                  .snapshots(),
+                              builder: (context, snapshots) {
+                                return (snapshots.connectionState ==
+                                        ConnectionState.waiting)
+                                    ? const Center(
+                                        child: CircularProgressIndicator(
+                                          color: primaryColour,
+                                        ),
+                                      )
+                                    : ListView.builder(
+                                        itemCount: snapshots.data!.docs.length,
+                                        itemBuilder: (context, index) {
+                                          var data = snapshots.data!.docs[index]
+                                              .data() as Map<String, dynamic>;
+                                          if (data['admno'] == admno) {
+                                            List l1 = data['bookid'];
+                                            List l2 = data['bookname'];
+                                            List l3 = data['issuedates'];
+                                            List l4 = data['returndates'];
+
+                                            return Container(
+                                              height: 565,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 15),
+                                                child: ListView.builder(
+                                                    itemCount: l1.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      DateTime date_issue =
+                                                          l3[index].toDate();
+                                                      String issuedate =
+                                                          "${date_issue.day}-${date_issue.month}-${date_issue.year}";
+                                                      DateTime date_return =
+                                                          l4[index].toDate();
+                                                      String returndate =
+                                                          "${date_return.day}-${date_return.month}-${date_return.year}";
+
+                                                      return BookReturnCard(
+                                                        name: l2[index],
+                                                        dateTime:
+                                                            DateTime.now(),
+                                                        number: l1[index],
+                                                        issuedate: issuedate,
+                                                        duedate: returndate,
+                                                        onPressed: () {
+                                                          List d1 = [
+                                                            date_issue
+                                                          ];
+                                                          List d2 = [
+                                                            date_return
+                                                          ];
+                                                          List a = [l1[index]];
+                                                          List b = [l2[index]];
+                                                          final book =
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'Books')
+                                                                  .doc(l1[
+                                                                      index]);
+                                                          book.update({
+                                                            'isavail': true
+                                                          });
+
+                                                          //todo: return
+
+                                                          final student =
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'Students')
+                                                                  .doc(admno);
+
+                                                          student.update({
+                                                            'bookid': FieldValue
+                                                                .arrayRemove(a)
+                                                          });
+                                                          student.update({
+                                                            'bookname':
+                                                                FieldValue
+                                                                    .arrayRemove(
+                                                                        b)
+                                                          });
+                                                          student.update({
+                                                            'issuedates':
+                                                                FieldValue
+                                                                    .arrayRemove(
+                                                                        d1)
+                                                          });
+                                                          student.update({
+                                                            'returndates':
+                                                                FieldValue
+                                                                    .arrayRemove(
+                                                                        d2)
+                                                          });
+
+                                                          setState(() {});
+                                                        },
+                                                      );
+                                                    }),
+                                              ),
+                                            );
+                                          } else if (index ==
+                                                  snapshots.data!.docs.length -
+                                                      1 &&
+                                              exist == false) {
+                                            return Flexible(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "No isssued books!",
+                                                    style: dashboardTextStyle
+                                                        .copyWith(fontSize: 14),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          } else {
+                                            return Container();
+                                          }
+                                        });
+                              },
+                            ),
+                          )
                         : Container(),
                   ],
                 ),
@@ -115,14 +257,16 @@ class BookReturnCard extends StatefulWidget {
   final String issuedate;
   final String duedate;
   DateTime dateTime;
-  BookReturnCard(
-      {Key? key,
-      required this.name,
-      required this.dateTime,
-      required this.number,
-      required this.issuedate,
-      required this.duedate})
-      : super(key: key);
+  void Function()? onPressed;
+  BookReturnCard({
+    Key? key,
+    required this.name,
+    required this.dateTime,
+    required this.number,
+    required this.issuedate,
+    required this.duedate,
+    required this.onPressed,
+  }) : super(key: key);
 
   @override
   State<BookReturnCard> createState() => _BookReturnCardState();
@@ -285,7 +429,7 @@ class _BookReturnCardState extends State<BookReturnCard> {
               GreenButton(
                   text: "Return Book",
                   width: MediaQuery.of(context).size.width * .4,
-                  onTap: () {})
+                  onTap: widget.onPressed)
             ],
           ),
         ),
