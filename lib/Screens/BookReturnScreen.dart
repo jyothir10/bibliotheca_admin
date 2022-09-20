@@ -158,6 +158,8 @@ class _BookReturnScreenState extends State<BookReturnScreen> {
                                                         issuedate: issuedate,
                                                         duedate: returndate,
                                                         onPressed: () {
+                                                          //todo: return
+
                                                           List d1 = [
                                                             date_issue
                                                           ];
@@ -176,8 +178,6 @@ class _BookReturnScreenState extends State<BookReturnScreen> {
                                                           book.update({
                                                             'isavail': true
                                                           });
-
-                                                          //todo: return
 
                                                           final student =
                                                               FirebaseFirestore
