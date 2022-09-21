@@ -6,6 +6,7 @@ import 'package:bibliotheca_admin/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = '/login';
@@ -17,19 +18,22 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  String mail = "", password = "";
+  String mail = "", password = "",id = "";
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
+  TextEditingController idcontroller = TextEditingController();
   bool showSpinner = false;
 
   Future signIn() async {
     setState(() {
       showSpinner = true;
     });
+    final prefs = await SharedPreferences.getInstance();
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailcontroller.text.trim(),
           password: passwordcontroller.text.trim());
+      await prefs.setString('id', idcontroller.text.trim());
       Navigator.pushReplacementNamed(context, DashBoardScreen.id);
       setState(() {
         showSpinner = false;
@@ -151,6 +155,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                     obscure: false,
                                     onchanged: (value) {
                                       mail = value;
+                                    },
+                                  ),
+                                  LoginScreenTextField(
+                                    mycontroller: idcontroller,
+                                    text: "Staff ID",
+                                    type: TextInputType.name,
+                                    obscure: false,
+                                    onchanged: (value) {
+                                      id = value;
                                     },
                                   ),
                                   LoginScreenTextField(
