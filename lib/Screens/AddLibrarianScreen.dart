@@ -33,6 +33,7 @@ class AddLibrarianScreenState extends State<AddLibrarianScreen> {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailcontroller.text.trim(),
           password: passwordcontroller.text.trim());
+
       _scaffoldKey.currentState?.showSnackBar(
         const SnackBar(
           behavior: SnackBarBehavior.floating,
