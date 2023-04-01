@@ -3,6 +3,7 @@ import 'package:bibliotheca_admin/Components/GreenButton.dart';
 import 'package:bibliotheca_admin/Components/LoginScreenTextfiled.dart';
 import 'package:bibliotheca_admin/Screens/DashBoardScreen.dart';
 import 'package:bibliotheca_admin/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -18,10 +19,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  String mail = "", password = "",id = "";
+  String mail = "", password = "", id = "";
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   TextEditingController idcontroller = TextEditingController();
+  late Stream streamQuery;
   bool showSpinner = false;
 
   Future signIn() async {
@@ -29,44 +31,77 @@ class _LoginScreenState extends State<LoginScreen> {
       showSpinner = true;
     });
     final prefs = await SharedPreferences.getInstance();
+
+    List itemList = [];
+
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailcontroller.text.trim(),
-          password: passwordcontroller.text.trim());
-      await prefs.setString('id', idcontroller.text.trim());
-      Navigator.pushReplacementNamed(context, DashBoardScreen.id);
+      await FirebaseFirestore.instance
+          .collection('Teachers')
+          .where('id', isEqualTo: idcontroller.text)
+          .get()
+          .then((QuerySnapshot querySnapshot) => {
+                querySnapshot.docs.forEach((doc) {
+                  itemList.add(doc.data());
+                }),
+              });
+      print(itemList);
+    } catch (e) {
+      print(e.toString());
+    }
+
+    if (itemList.isNotEmpty) {
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: emailcontroller.text.trim(),
+            password: passwordcontroller.text.trim());
+        await prefs.setString('id', idcontroller.text.trim());
+        Navigator.pushReplacementNamed(context, DashBoardScreen.id);
+        setState(() {
+          showSpinner = false;
+        });
+      } on FirebaseException catch (e) {
+        print(e.code);
+        if (e.code == "user-not-found") {
+          _scaffoldKey.currentState?.showSnackBar(
+            const SnackBar(
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 1),
+              content: Text(
+                "User does not exist !",
+              ),
+            ),
+          );
+          setState(() {
+            showSpinner = false;
+          });
+        } else {
+          _scaffoldKey.currentState?.showSnackBar(
+            SnackBar(
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 1),
+              content: Text(
+                e.message.toString(),
+              ),
+            ),
+          );
+          setState(() {
+            showSpinner = false;
+          });
+        }
+      }
+    } else {
+      _scaffoldKey.currentState?.showSnackBar(
+        const SnackBar(
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 1),
+          content: Text(
+            "User does not exist !",
+          ),
+        ),
+      );
       setState(() {
         showSpinner = false;
       });
-    } on FirebaseException catch (e) {
-      print(e.code);
-      if (e.code == "user-not-found") {
-        _scaffoldKey.currentState?.showSnackBar(
-          const SnackBar(
-            behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 1),
-            content: Text(
-              "User does not exist !",
-            ),
-          ),
-        );
-        setState(() {
-          showSpinner = false;
-        });
-      } else {
-        _scaffoldKey.currentState?.showSnackBar(
-          SnackBar(
-            behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 1),
-            content: Text(
-              e.message.toString(),
-            ),
-          ),
-        );
-        setState(() {
-          showSpinner = false;
-        });
-      }
     }
   }
 
