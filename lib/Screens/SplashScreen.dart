@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:bibliotheca_admin/Screens/DashBoardScreen.dart';
 import 'package:bibliotheca_admin/Screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String id = '/splash';
@@ -24,9 +26,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   startTime() async {
     var _duration = Duration(seconds: 4);
-    return Timer(_duration, () {
-      //Navigate to another screen or anyOther function, like i set duration 4 sec so this function run after 4 sec
-      Navigator.pushReplacementNamed(context, LoginScreen.id);
+    return Timer(_duration, () async {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      if (sharedPreferences.getString('id') == null) {
+        Navigator.pushReplacementNamed(context, LoginScreen.id);
+      } else {
+        Navigator.pushReplacementNamed(context, DashBoardScreen.id);
+      }
     });
   }
 
